@@ -1,0 +1,12 @@
+# 环境文件
+venv/
+
+#PyCharm 文件
+__pycache__/
+.idea/
+
+# 取消打包文件
+*.zip
+
+# 取消上傳腳本
+push.bat

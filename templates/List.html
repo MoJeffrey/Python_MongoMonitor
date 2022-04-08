@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+    
+    <head>
+        <meta charset="UTF-8">
+        <title>數據列表</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
+        <link rel="stylesheet" href="/static/css/font.css">
+        <link rel="stylesheet" href="/static/css/xadmin.css">
+        <script src="/static/lib/layui/layui.js" charset="utf-8"></script>
+        <script type="text/javascript" src="/static/js/xadmin.js"></script>
+        <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+        <!--[if lt IE 9]>
+          <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+          <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <style type="text/css" >
+            .layui-table Img {
+                max-width: 300px
+            }
+
+            /* 擴大表格內的文字 */
+            .x-admin-sm .layui-table td, .x-admin-sm .layui-table th {
+                font-size: 20px;
+            }
+
+            .Main {
+                width: 800px;
+                margin: auto;
+                display: block;
+            }
+
+            /* 頭部搜索按鈕 */
+            #Search {
+                margin-left: 20px;
+                height: 50px;
+            }
+
+            /* 新訂單編號 */
+            #NewOrderLabel {
+                padding: 12px 0;
+            }
+            /* 新建訂單按鈕 */
+            #NewOrderButton {
+                margin: auto;
+                display: block;
+                width: 230px;
+                font-size: 25px;
+                height: 50px;
+                border-radius: 30px;
+            }
+
+            /* 表格中的Item*/
+            .TableItem {
+                display: flex;
+                justify-content: center;
+            }
+        </style>
+    </head>
+    
+    <body class="Main">
+        <div class="x-nav">
+            <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+                <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+            </a>
+        </div>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+
+                            <form class="layui-form layui-col-space5" onclick="return false">
+
+                                <div class="layui-inline">
+                                    <div class="layui-input-inline">
+                                        <select id="DataBaseList" lay-filter="DataBaseList">
+                                            <option value="default">選擇DataBase</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="layui-input-inline">
+                                        <select id="CollectionList">
+                                            <option value="default">選擇Collection</option>
+                                        </select>
+                                    </div>
+
+                                    </br><div style="margin-top: 10px"></div>
+
+                                    <div class="layui-input-inline">
+                                        <input id="StartDate" type="text" placeholder="開始日期"
+                                               class="layui-input" >
+                                    </div>
+
+                                    <div class="layui-inline">
+                                    至
+                                    </div>
+
+                                    <div class="layui-input-inline">
+                                        <input id="EndDate" type="text" placeholder="結束日期"
+                                               class="layui-input" id="EndDate">
+                                    </div>
+
+                                    </br><div style="margin-top: 10px"></div>
+
+                                    <div class="layui-input-inline">
+                                        <input id="ID" type="text" placeholder="ID"
+                                               class="layui-input" >
+                                    </div>
+
+                                </div>
+
+
+                                <div class="layui-inline">
+                                    <button class="layui-btn"
+                                            id="Search"
+                                            lay-submit
+                                            lay-filter="Search">
+                                        <i class="layui-icon">&#xe615;</i> 搜索
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            <table class="layui-table" id="Table" lay-filter="Table"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script type="text/javascript" src="/static/js/Tools/Select.js"></script>
+    <script type="text/javascript" src="/static/js/Tools/Prompt.js"></script>
+    <script type="text/javascript" src="/static/js/Tools/NewDate.js"></script>
+    <script type="text/javascript">
+        //layui 基礎組件
+        let table = null;
+        let form = null;
+        let laydate = null;
+
+        // 表格
+        let Table = null;
+
+        let TableWhere = {
+            DataBase: "",
+            Collection: "",
+            ID: "",
+            StartDate: "",
+            EndDate: ""
+        };
+
+        let API_URL = {
+            "List": "/api/GetList",
+            "DataBaseList": "/api/GetDatabaseList",
+            "CollectionList": "/api/GetCollectionList",
+            "ViewData": "/ViewData"
+        };
+
+        /**
+         * 初始化
+         */
+        function Init() {
+            Select.Ajax("DataBaseList", form, API_URL['DataBaseList']);
+        }
+
+        /**
+         * 表格刷新（不帶參數）
+         */
+        function TableReload() {
+            Prompt.Loading("加載中...");
+
+            let Data = {
+                url: API_URL['List'],
+                method: "Post",
+                where:TableWhere,
+                done: function (){
+                    layer.closeAll();
+                }
+            }
+
+            Table.reload(Data);
+        }
+
+        /**
+         * 初始化數據
+         */
+        function PretreatmentTableData(Data){
+
+            for(let x in Data['data']){
+                if(Data['data'].hasOwnProperty(x) && Data['data'][x] != null){
+
+                    let Id = Data['data'][x]['_id'];
+                    let DB = TableWhere['DataBase'];
+                    let Collection = TableWhere['Collection'];
+                    let HTML = '<a type="button"';
+                    HTML += ` onclick="OpenViewData('${DB}','${Collection}','${Id}')"`;
+                    HTML += ' class="TableItem">';
+
+                    Data['data'][x]['ID'] = HTML + Id + "</a>";
+
+                    let Time = "";
+                    if(Data['data'][x].hasOwnProperty('time')){
+                        Time = Data['data'][x]['time'] + "000";
+                        Time = parseInt(Time);
+                        Data['data'][x]['Time'] = HTML + NewDate.GetDate(Time, false) + "</a>";
+                    }
+
+                }
+            }
+            return Data
+        }
+
+        /**
+         * 初始化表格
+         */
+        function  Init_Table(){
+            let Cols = [[
+                {field: "Time", title: "獲取時間", align: "center"},
+                {field: "ID", title: "ID", align: "center"}
+            ]];
+
+            Table = table.render({
+                elem: "#Table",
+                data: [],
+                toolbar: null,
+                defaultToolbar: [],
+                page: true,
+                limits: [15, 30, 100],
+                limit: 15,
+                cols: Cols,
+                parseData: PretreatmentTableData,
+            });
+        }
+
+        /**
+         * 初始化日期输入框
+         */
+        function Init_DateInput() {
+            laydate.render({elem: '#StartDate', type: 'datetime'});
+            laydate.render({elem: '#EndDate', type: 'datetime'});
+        }
+
+        /**
+         * 查看該條數據的內容
+         */
+        function OpenViewData(DB, Collection, ID) {
+            window.open(`ViewData?DB=${DB}&C=${Collection}&ID=${ID}`);
+        }
+
+        /**
+         * 監聽選擇數據庫
+         * 改變Collection值
+         * 聯動改變
+         */
+        function ListenSelectDataBase(){
+            form.on('select(DataBaseList)', function(data){
+                if(data.value !== "Prompt"){
+                    let PostData = {
+                        'Name': data.value
+                    }
+                    Select.Ajax("CollectionList", form, API_URL['CollectionList'], PostData);
+                }
+            });
+        }
+
+        /**
+         * 監聽搜索
+         */
+        function ListenSearch(){
+            function Do(){
+                function GetDate(Element){
+                    let InputDate = $("#" + Element).val();
+
+                    if(InputDate === ""){
+                        TableWhere[Element] = "";
+                    }else{
+                        let date = new Date(InputDate);
+                        let timestamp = date.getTime();
+                        timestamp = timestamp / 1000;
+                        TableWhere[Element] = timestamp;
+                    }
+                }
+
+                let DataBase = $("#DataBaseList").val();
+                if(DataBase === "default"){
+                    Prompt.Error("請選擇DataBase!");
+                    return
+                }else{
+                    TableWhere["DataBase"] = DataBase;
+                }
+
+                let Collection = $("#CollectionList").val();
+                if(Collection === "default"){
+                    Prompt.Error("請選擇Collection!");
+                    return
+                }else{
+                    TableWhere["Collection"] = Collection;
+                }
+
+                GetDate("StartDate");
+                GetDate("EndDate");
+
+                TableWhere["ID"] = $("#ID").val();
+
+                TableReload();
+            }
+
+            form.on('submit(Search)', Do);
+        }
+
+        layui.use(['table', 'form', 'laydate'], function() {
+            table = layui.table;
+            form = layui.form;
+            laydate  = layui.laydate;
+
+            Init();
+            Init_DateInput();
+            Init_Table();
+
+            ListenSelectDataBase();
+            ListenSearch();
+        });
+	
+	</script>
+
+</html>

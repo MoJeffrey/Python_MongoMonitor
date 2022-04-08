@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/Tools/NewDate.js"></script>
+    <script type="text/javascript" src="/static/js/bfwone.js"></script>
+</head>
+
+<style>
+    #Main{
+        padding: 50px;
+        background-color: #1A1B20;
+    }
+
+    .json-string{
+        color: #629755 !important;
+    }
+
+    .json-dict{
+        color: #CC7832 !important;
+        font-weight: 800 !important;
+        font-size: 18px !important;
+    }
+
+    #Title{
+        color: #CC3333;
+    }
+
+    #Info{
+        color: blue;
+        font-size: 24px;
+    }
+</style>
+
+<body id="Main">
+    <h1 id="Title"></h1>
+    <p id="Info"></p>
+    <p id="Json"></p>
+</body>
+
+    <script type="text/javascript">
+        let Data = {{ Data|tojson }};
+        let Type = GetQueryVariable("C");
+        let ID = GetQueryVariable("ID");
+        let DB = GetQueryVariable("DB");
+
+        /**
+         * 獲取Get傳輸的數據
+         * variable = Get的參數名稱
+         * @type {string}
+         */
+        function GetQueryVariable(variable){
+            let query = window.location.search.substring(1);
+            let vars = query.split("&");
+            for (let i=0;i<vars.length;i++) {
+                let pair = vars[i].split("=");
+                if(pair[0] === variable){return pair[1];}
+            }
+            return ""
+        }
+
+        /**
+         * 初始化Json
+         */
+        function Init_Json(){
+            $("#Json").html(Data['data']);
+
+            if(typeof Data['data'] === "string"){
+                Data['data'] = JSON.parse(Data['data']);
+            }
+
+            bready(function (){
+                use(["json-viewer", "json-viewer"], function (){
+                    $("#Json").jsonViewer(Data['data']);
+                })
+            })
+            console.log(Data['data'])
+            console.log(typeof Data['data'])
+        }
+
+        function Init_Info(){
+            if(Type === "Match"){
+                GetMatchData();
+            }
+        }
+
+        /**
+         * 獲取比賽數據
+         */
+        function GetMatchData(){
+            $.ajax({
+                type:'post',
+                url: "/api/GetMatchData",
+                data:{
+                    ID: ID,
+                    DB: DB
+                },
+                success:function (data) {
+                    if(data.code === 200) {
+                        data = data.data;
+
+                        let Time = data['Time'] + "000";
+                        Time = parseInt(Time);
+                        Time = NewDate.GetDate(Time, false);
+
+                        let Text = `(${data['League']})  ${data['Home']} VS ${data['Away']} ${Time}`
+                        $("#Info").html(Text);
+                    }
+                }
+            });
+        }
+
+        /**
+         * 初始化標題
+         */
+        function Init_Title(){
+            let Title  = GetQueryVariable("DB") + " - " + Type;
+
+            if(Data.hasOwnProperty('time')){
+                let Time = Data['time'] + "000";
+                Time = parseInt(Time);
+                Title += " " + NewDate.GetDate(Time, false);
+            }
+
+            document.title = Title;
+
+            $("#Title").html(Title);
+        }
+
+        function Init(){
+            Init_Title();
+            Init_Json();
+            Init_Info();
+        }
+
+        Init()
+    </script>
+
+</html>

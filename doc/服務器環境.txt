@@ -1,0 +1,44 @@
+# 導出pip
+pip freeze > requirements.txt
+
+# 安裝MongoDB
+https://www.runoob.com/docker/docker-install-mongodb.html
+
+# 安裝Python環境
+docker pull python:3.6.5
+
+# 創建home/BGX目錄/ 運行python
+docker run -it -d --name=SourceDataView -p 8000:8000 -v /home/BGX/SourceDataView:/root/BGX python:3.6.5 bash
+
+# 進入容器
+docker exec -it SourceDataView bash
+
+# 刪除容器
+docker container rm SourceDataView
+
+# 停止容器
+docker stop SourceDataView
+
+# 啟動
+docker restart SourceDataView
+
+# 進入項目目錄
+cd /root/BGX
+
+# 安裝python 組件
+pip install -r requirements.txt
+
+# 進入測試目錄
+cd ./doc/Test
+
+#查看進程
+ps -ef |grep python
+
+# 終止進程
+kill -9 进程号
+
+# 启动脚本
+python app.py
+
+# 启动脚本 并添加日志输出
+nohup python -u app.py > ./log/run`date +%Y-%m-%d-%H:%M:%S`.log 2>&1 &
