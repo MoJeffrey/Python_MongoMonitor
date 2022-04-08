@@ -46,8 +46,8 @@ def GetList():
     # 查詢ID
     if POST['ID'] != "":
         ID = POST['ID']
-        Find['$or'] = [{"PlatformId": {"$eq": ID}},
-                       {"MySqlID": {"$eq": ID}}]
+        Find['$or'] = [{"PlatformId": {"$regex": ID}},
+                       {"MySqlID": {"$regex": ID}}]
 
     Data = collection.find(Find, {'data': 0})
 

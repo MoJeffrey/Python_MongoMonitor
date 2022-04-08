@@ -39,6 +39,13 @@
                 height: 50px;
             }
 
+            /* 篩選欄位 */
+            #Filter{
+                margin-left: 20px;
+                height: 50px;
+                background-color: #786AED;
+            }
+
             /* 新訂單編號 */
             #NewOrderLabel {
                 padding: 12px 0;
@@ -111,6 +118,12 @@
                                                class="layui-input" >
                                     </div>
 
+                                    </br><div style="margin-top: 10px"></div>
+                                    <!-- 篩選 -->
+                                    <div class="layui-input-inline">
+                                        <input id="Fields" type="text" placeholder="輸入顯示的 Field"
+                                               class="layui-input" >
+                                    </div>
                                 </div>
 
 
@@ -122,6 +135,16 @@
                                         <i class="layui-icon">&#xe615;</i> 搜索
                                     </button>
                                 </div>
+
+                                <div class="layui-inline">
+                                    <button class="layui-btn"
+                                            id="Filter"
+                                            lay-submit
+                                            lay-filter="Filter">
+                                        <i class="layui-icon">&#xe615;</i> 篩選
+                                    </button>
+                                </div>
+
                             </form>
 
                         </div>
@@ -148,6 +171,7 @@
 
         // 表格
         let Table = null;
+        let SearchTable = false;
 
         let TableWhere = {
             DataBase: "",
@@ -185,14 +209,44 @@
                     layer.closeAll();
                 }
             }
-
+            SearchTable = true;
             Table.reload(Data);
+        }
+
+        function SetFields(Data){
+            if(SearchTable){
+                let FieldsSelector = $("#Fields");
+                let Fields = FieldsSelector.val();
+
+                let NewFields = "";
+                if(Fields !== ""){
+                    Fields = Fields.split(";");
+                }
+
+                SearchTable = false;
+                let Cols = [];
+
+                for(let Item in Data['data'][0]){
+                    if(Data['data'][0].hasOwnProperty(Item)) {
+                        NewFields += Item + ";";
+                        if(Fields === "" || Fields.indexOf(Item) > -1){
+                            Cols.push({field: Item, title: Item, align: "center"});
+                        }
+                    }
+                }
+
+                if(Fields === ""){
+                    FieldsSelector.val(NewFields.substring(0, NewFields.length - 1));
+                }
+                Table.reload({cols: [Cols]});
+            }
         }
 
         /**
          * 初始化數據
          */
         function PretreatmentTableData(Data){
+            SetFields(Data);
 
             for(let x in Data['data']){
                 if(Data['data'].hasOwnProperty(x) && Data['data'][x] != null){
@@ -204,13 +258,13 @@
                     HTML += ` onclick="OpenViewData('${DB}','${Collection}','${Id}')"`;
                     HTML += ' class="TableItem">';
 
-                    Data['data'][x]['ID'] = HTML + Id + "</a>";
+                    Data['data'][x]['_id'] = HTML + Id + "</a>";
 
                     let Time = "";
                     if(Data['data'][x].hasOwnProperty('time')){
                         Time = Data['data'][x]['time'] + "000";
                         Time = parseInt(Time);
-                        Data['data'][x]['Time'] = HTML + NewDate.GetDate(Time, false) + "</a>";
+                        Data['data'][x]['time'] = HTML + NewDate.GetDate(Time, false) + "</a>";
                     }
 
                 }
@@ -222,20 +276,13 @@
          * 初始化表格
          */
         function  Init_Table(){
-            let Cols = [[
-                {field: "Time", title: "獲取時間", align: "center"},
-                {field: "ID", title: "ID", align: "center"}
-            ]];
-
             Table = table.render({
                 elem: "#Table",
                 data: [],
-                toolbar: null,
-                defaultToolbar: [],
                 page: true,
                 limits: [15, 30, 100],
                 limit: 15,
-                cols: Cols,
+                cols: [],
                 parseData: PretreatmentTableData,
             });
         }
@@ -266,6 +313,8 @@
                     let PostData = {
                         'Name': data.value
                     }
+
+                    $("#CollectionList").html("");
                     Select.Ajax("CollectionList", form, API_URL['CollectionList'], PostData);
                 }
             });
