@@ -5,7 +5,7 @@
 """
 MongoDB
 """
-MongoDB_IP = '54.151.135.80'
-MongoDB_Port = 27017
-MongoDB_Name = "admin"
-MongoDB_Password = "123456"
+MongoDB_IP = '119.13.101.139'
+MongoDB_Port = 8635
+MongoDB_Name = "rwuser"
+MongoDB_Password = "Bgx_2022"
