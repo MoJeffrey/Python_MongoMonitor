@@ -1,26 +1,39 @@
 # 導出pip
 pip freeze > requirements.txt
 
-# 安裝MongoDB
-https://www.runoob.com/docker/docker-install-mongodb.html
+# 提升權限
+chmod -R 777 /home/BGX/RawDataView
 
 # 安裝Python環境
 docker pull python:3.6.5
 
+# 創建文件夾
+cd /home
+mkdir -p BGX/RawDataView
+cd ./BGX/RawDataView
+
+# 拉取最新代碼
+git init
+git config --global credential.helper store
+git remote add origin http://gitlab.bgx.com.hk/jeffrey/matchserver_rawdataview.git
+git pull origin main
+jeffrey
+Wo1025792161
+
 # 創建home/BGX目錄/ 運行python
-docker run -it -d --name=SourceDataView -p 8000:8000 -v /home/BGX/SourceDataView:/root/BGX python:3.6.5 bash
+docker run -it -d --name=RawDataView -p 8000:8000 -v /home/BGX/RawDataView:/root/BGX python:3.6.5 bash
 
 # 進入容器
-docker exec -it SourceDataView bash
+docker exec -it RawDataView bash
 
 # 刪除容器
-docker container rm SourceDataView
+docker container rm RawDataView
 
 # 停止容器
-docker stop SourceDataView
+docker stop RawDataView
 
 # 啟動
-docker restart SourceDataView
+docker start RawDataView
 
 # 進入項目目錄
 cd /root/BGX

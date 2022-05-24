@@ -9,6 +9,8 @@ import config
 client = pymongo.MongoClient(host=config.MongoDB_IP,
                              port=config.MongoDB_Port,
                              username=config.MongoDB_Name,
+                             ssl=True,
+                             tlsCAFile=config.MongoDB_PEM,
                              password=config.MongoDB_Password)
 client.list_database_names()
 app = Flask(__name__)
@@ -47,6 +49,7 @@ def GetList():
     if POST['ID'] != "":
         ID = POST['ID']
         Find['$or'] = [{"PlatformId": {"$regex": ID}},
+                       {"ID": {"$regex": ID}},
                        {"MySqlID": {"$regex": ID}}]
 
     Data = collection.find(Find, {'data': 0})
