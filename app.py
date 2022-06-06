@@ -50,6 +50,7 @@ def GetList():
         ID = POST['ID']
         Find['$or'] = [{"PlatformId": {"$regex": ID}},
                        {"ID": {"$regex": ID}},
+                       {"Parameter": {"$regex": ID}},
                        {"MySqlID": {"$regex": ID}}]
 
     Data = collection.find(Find, {'data': 0})
