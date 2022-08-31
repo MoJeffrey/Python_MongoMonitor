@@ -1,0 +1,40 @@
+#
+# 初始化 运行 (包含更新运行指令一起运行)
+#
+sudo su
+
+# 服務器系統選擇 Ubuntu 20.04 server 64bit
+# apt包列表完全更新
+apt-get update -y
+
+# 安装Get
+apt install git
+# 安裝Docker
+curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+service docker start
+
+
+
+
+#
+# 更新运行
+#
+sudo su
+# 創建文件夾
+cd /home
+mkdir -p BGX/TheSportsWebSocket
+cd ./BGX/TheSportsWebSocket
+
+# 拉取最新代碼
+git init
+git remote add origin http://gitlab.bgx.com.hk/jeffrey/matchserver_rawdataview.git
+git pull origin main
+
+docker build -t the_sports_websocket .
+docker stop TheSportsWebSocket
+docker container rm TheSportsWebSocket
+
+# 需要选择采用那个Confi File
+docker run --restart=always -e CONFIG_PATH="SIT2.ini" -it -d --name=TheSportsWebSocket the_sports_websocket bash
+
+docker ps

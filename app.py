@@ -3,14 +3,15 @@ from http import HTTPStatus
 from bson.objectid import ObjectId, InvalidId
 from flask import Flask, jsonify, render_template, request
 import pymongo
+from Tool.config import config
 
-import config
+config().Init()
 
 client = pymongo.MongoClient(host=config.MongoDB_IP,
                              port=config.MongoDB_Port,
                              username=config.MongoDB_Name,
                              ssl=True,
-                             tlsCAFile=config.MongoDB_PEM,
+                             tlsCAFile=config.MongoDB_tlsCAFile,
                              password=config.MongoDB_Password)
 client.list_database_names()
 app = Flask(__name__)
