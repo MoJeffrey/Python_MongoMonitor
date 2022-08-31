@@ -55,3 +55,5 @@ python app.py
 
 # 启动脚本 并添加日志输出
 nohup python -u app.py > ./log/run`date +%Y-%m-%d-%H:%M:%S`.log 2>&1 &
+
+chmod -R 777 /home/BGX/RawDataView

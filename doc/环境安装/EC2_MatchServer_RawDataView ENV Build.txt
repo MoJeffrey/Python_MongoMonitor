@@ -22,8 +22,8 @@ service docker start
 sudo su
 # 創建文件夾
 cd /home
-mkdir -p BGX/TheSportsWebSocket
-cd ./BGX/TheSportsWebSocket
+mkdir -p BGX/RawDataView
+cd ./BGX/RawDataView
 
 # 拉取最新代碼
 git init
