@@ -35,6 +35,6 @@ docker stop PythonRawDataView
 docker container rm PythonRawDataView
 
 # 需要选择采用那个Confi File
-docker run --restart=always -e CONFIG_PATH="config/Develop.ini" -t -p 8000:8000 --name=PythonRawDataView python_raw_data_view
+docker run --restart=always -e CONFIG_PATH="config/SIT2.ini" -t -p 8000:8000 --name=PythonRawDataView python_raw_data_view
 
 docker ps

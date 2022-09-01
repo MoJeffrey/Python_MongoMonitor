@@ -229,7 +229,7 @@
                 for(let Item in Data['data'][0]){
                     if(Data['data'][0].hasOwnProperty(Item)) {
                         NewFields += Item + ";";
-                        if(Fields === "" || Fields.indexOf(Item) > -1){
+                        if(Fields === "_id" || Fields === "" || Fields.indexOf(Item) > -1){
                             Cols.push({field: Item, title: Item, align: "center"});
                         }
                     }
@@ -258,7 +258,7 @@
                     HTML += ` onclick="OpenViewData('${DB}','${Collection}','${Id}')"`;
                     HTML += ' class="TableItem">';
 
-                    Data['data'][x]['_id'] = HTML + Id + "</a>";
+                    Data['data'][x]['ID'] = HTML + Id + "</a>";
 
                     let Time = "";
                     if(Data['data'][x].hasOwnProperty('time')){
@@ -275,7 +275,7 @@
         /**
          * 初始化表格
          */
-        function  Init_Table(){
+        function Init_Table(){
             Table = table.render({
                 elem: "#Table",
                 data: [],

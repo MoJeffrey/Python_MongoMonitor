@@ -57,3 +57,5 @@ python app.py
 nohup python -u app.py > ./log/run`date +%Y-%m-%d-%H:%M:%S`.log 2>&1 &
 
 chmod -R 777 /home/BGX/RawDataView
+
+rm -rf RawDataView
