@@ -229,7 +229,7 @@
                 for(let Item in Data['data'][0]){
                     if(Data['data'][0].hasOwnProperty(Item)) {
                         NewFields += Item + ";";
-                        if(Fields === "_id" || Fields === "" || Fields.indexOf(Item) > -1){
+                        if(Item !== "_id" || Fields === "" || Fields.indexOf(Item) > -1){
                             Cols.push({field: Item, title: Item, align: "center"});
                         }
                     }
@@ -258,7 +258,7 @@
                     HTML += ` onclick="OpenViewData('${DB}','${Collection}','${Id}')"`;
                     HTML += ' class="TableItem">';
 
-                    Data['data'][x]['ID'] = HTML + Id + "</a>";
+                    Data['data'][x]['ID'] = HTML + Data['data'][x]['ID'] + "</a>";
 
                     let Time = "";
                     if(Data['data'][x].hasOwnProperty('time')){
