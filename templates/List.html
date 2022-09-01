@@ -229,8 +229,8 @@
                 for(let Item in Data['data'][0]){
                     if(Data['data'][0].hasOwnProperty(Item)) {
                         NewFields += Item + ";";
-                        if(Item !== "_id" || Fields === "" || Fields.indexOf(Item) > -1){
-                            Cols.push({field: Item, title: Item, align: "center"});
+                        if(Fields === "" || Fields.indexOf(Item) > -1){
+                            if(Item !== "_id") Cols.push({field: Item, title: Item, align: "center"});
                         }
                     }
                 }
