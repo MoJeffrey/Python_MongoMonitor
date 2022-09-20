@@ -18,8 +18,6 @@ class NewDate{
 
         if(OnlyDate){
             date = date.split('T')[0];
-        }else{
-            date = date.replace('T', ' ');
         }
 
         return date
