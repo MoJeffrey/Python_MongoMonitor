@@ -14,7 +14,7 @@ class NewDate{
     static GetDate(time = +new Date(), OnlyDate=true) {
         let date = new Date(time + 8 * 3600 * 1000);
 
-        date = date.toJSON().substr(0, 19);
+        date = date.toJSON();
 
         if(OnlyDate){
             date = date.split('T')[0];
