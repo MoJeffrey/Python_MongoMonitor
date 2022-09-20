@@ -262,7 +262,7 @@
 
                     let Time = "";
                     if(Data['data'][x].hasOwnProperty('time')){
-                        Time = Data['data'][x]['time'] + "000";
+                        if(Data['data'][x]['time'].toString().length !== 13) Time = Data['data'][x]['time'] + "000";
                         Time = parseInt(Time);
                         Data['data'][x]['time'] = HTML + NewDate.GetDate(Time, false) + "</a>";
                     }
