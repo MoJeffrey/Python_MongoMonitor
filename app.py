@@ -75,7 +75,7 @@ def GetList():
 @app.route('/api/GetDatabaseList', methods=['POST'])
 def GetDatabaseList():
     Lists = client.list_database_names()
-
+    Lists.sort()
     Databases = []
     for Item in Lists:
         if Item == "admin" or Item == "config" or Item == "local":
@@ -99,7 +99,8 @@ def GetCollectionList():
         }
         return jsonify(Data)
 
-    Lists = client[POST['Name']].list_collection_names().sort()
+    Lists = client[POST['Name']].list_collection_names()
+    Lists.sort()
 
     Databases = []
     for Item in Lists:
