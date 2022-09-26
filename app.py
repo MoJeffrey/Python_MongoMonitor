@@ -99,7 +99,7 @@ def GetCollectionList():
         }
         return jsonify(Data)
 
-    Lists = client[POST['Name']].list_collection_names()
+    Lists = client[POST['Name']].list_collection_names().sort()
 
     Databases = []
     for Item in Lists:
