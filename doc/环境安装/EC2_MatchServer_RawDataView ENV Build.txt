@@ -38,3 +38,5 @@ docker container rm PythonRawDataView
 docker run --restart=always -e CONFIG_PATH="config/Develop.ini" -t -p 8000:8000 --name=PythonRawDataView python_raw_data_view
 
 docker ps
+
+chmod -R 777 /home/BGX/RawDataView

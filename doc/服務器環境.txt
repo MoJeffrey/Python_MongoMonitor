@@ -39,7 +39,7 @@ docker start RawDataView
 cd /root/BGX
 
 # 安裝python 組件
-pip install -r requirements.txt
+pip install -r requirement.txt
 
 # 進入測試目錄
 cd ./doc/Test
@@ -57,5 +57,5 @@ python app.py
 nohup python -u app.py > ./log/run`date +%Y-%m-%d-%H:%M:%S`.log 2>&1 &
 
 chmod -R 777 /home/BGX/RawDataView
-
+export CONFIG_PATH=config/Develop.ini
 rm -rf RawDataView
