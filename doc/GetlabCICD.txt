@@ -1,0 +1,25 @@
+# 創建Runner 容器
+docker run -d --name GitlabRunner --restart always -v /srv/gitlab-runner/config:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock gitlab/gitlab-runner:latest
+
+# 進入容器
+docker exec -it GitlabRunner bash
+
+
+# 註冊 Runner
+gitlab-runner register
+http://gitlab.bgx.com.hk/
+7nBoez8zGmUHqgfYG73R
+Dev
+Dev
+# 跳過
+docker
+python:3.9
+
+
+
+# 設置Runner 環境變量
+apt-get update
+apt-get install vim
+vi /etc/gitlab-runner/config.toml
+
+environment = ["CONFIG_PATH=./src/config/Develop.ini"]
