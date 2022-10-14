@@ -26,7 +26,7 @@ unit-test-job:
     reports:
       junit:
         - src/Report.xml
-        - src/UnitTest.log
+#        - src/UnitTest.log
   script:
     - echo "Unit test start!"
     - cp $CONFIG_PATH ./src/config/Config.ini
