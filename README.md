@@ -125,25 +125,19 @@ Python 3.9
 ```
 .
 │   .gitignore
-│   Jenkinsfile --CICD
-│   Jenkinsfile.deploy --CICD
+│   deploy.sh -deploy 指令
+│   .gitlab-ci.yml -CICD
 │   README.md
-│   sonar-project.properties --code scanner
 │   template.yaml
-│
-├─── AWS -- AWS Deploy 文件
-│
 │
 ├───doc --相關詳細資料
 │
-├───events --觸發數據
-│
-├───ProduceSQL --去生成該數據源基礎數據的SQL Init 文件， 避免大量數據添加造成Lambda負擔
-│
 ├───src --程序主代碼
 │   │   app.py --程序入口
+│   │   requirement.txt --依賴
 │   ├───config --配置文件目錄
-│   ├───TheSports --TheSports libs
+│   ├───static --靜態文件 Ccs,Js,Img
+│   ├───templates --html 代碼
 │   └───Tools --鏈接各種第三方工具代碼
 │
 └───UnitTest --測試代碼

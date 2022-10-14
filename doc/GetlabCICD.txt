@@ -8,10 +8,10 @@ docker exec -it GitlabRunner bash
 # 註冊 Runner
 gitlab-runner register
 http://gitlab.bgx.com.hk/
-7nBoez8zGmUHqgfYG73R
+JBg7W_TGfXc7y7yAgBv4
 Dev
 Dev
-# 跳過
+MatchServer_MongoMonitor_Dev
 docker
 python:3.9
 
