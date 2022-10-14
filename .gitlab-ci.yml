@@ -2,9 +2,6 @@ stages:
   - test
   - deploy
 
-variables:
-  CI_DEBUG_TRACE: 'true'
-
 workflow:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
