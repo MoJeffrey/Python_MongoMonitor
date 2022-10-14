@@ -3,7 +3,7 @@ from http import HTTPStatus
 from bson.objectid import ObjectId, InvalidId
 from flask import Flask, jsonify, render_template, request
 import pymongo
-from Tool.config import config
+from Tools.config import config
 
 config().Init()
 
