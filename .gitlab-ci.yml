@@ -32,8 +32,7 @@ unit-test-job:
         - src/UnitTest.log
   script:
     - echo "Unit test start!"
-    - echo "$TESTENV"
-    - echo "$Deploy_Config" > ./src/config/Config.ini
+    - cp $CONFIG_PATH ./src/config/Config.ini
     - export PYTHONPATH=$CI_PROJECT_DIR/src
     - export CONFIG_PATH=./config/Config.ini
     - cd ./src
