@@ -35,6 +35,7 @@ unit-test-job:
     - cd ./src
     - pip install -r requirement.txt
     - pytest ../UnitTest/Test_Main.py --junitxml=Report.xml
+    - python ../UnitTest/Test_Main.py
     - echo "Unit test done!"
 
 deploy-Dev-job:
