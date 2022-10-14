@@ -25,7 +25,7 @@ unit-test-job:
   artifacts:
     reports:
       junit:
-        - src/ConfigReport.xml
+        - src/Report.xml
         - src/UnitTest.log
   script:
     - echo "Unit test start!"
@@ -34,7 +34,7 @@ unit-test-job:
     - export CONFIG_PATH=./config/Config.ini
     - cd ./src
     - pip install -r requirement.txt
-    - pytest ../UnitTest/Test_Main.py --junitxml=ConfigReport.xml
+    - pytest ../UnitTest/Test_Main.py --junitxml=Report.xml
     - echo "Unit test done!"
 
 deploy-Dev-job:
