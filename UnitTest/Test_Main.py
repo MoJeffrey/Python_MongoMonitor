@@ -26,12 +26,7 @@ class ConfigTestCase(unittest.TestCase):
 
     @staticmethod
     def test_MongoDB():
-        client = pymongo.MongoClient(host=config.MongoDB_IP,
-                                     port=config.MongoDB_Port,
-                                     username=config.MongoDB_Name,
-                                     ssl=True,
-                                     tlsCAFile=config.MongoDB_tlsCAFile,
-                                     password=config.MongoDB_Password)
+        client = pymongo.MongoClient()
         client.list_database_names()
 
 
