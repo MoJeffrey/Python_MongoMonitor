@@ -1,0 +1,92 @@
+stages:
+  - test
+  - deploy
+
+variables:
+  CI_DEBUG_TRACE: 'true'
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_TAG
+    - when: never
+
+.deploy:
+  stage: deploy
+  allow_failure: false
+  when: manual
+  tags:
+    - Dev
+  script:
+    - sh deploy.sh
+
+unit-test-job:
+  stage: test
+  tags:
+    - Dev
+  artifacts:
+    reports:
+      junit:
+        - src/ConfigReport.xml
+        - src/UnitTest.log
+  script:
+    - echo "Unit test start!"
+    - echo "$TESTENV"
+    - echo "$Deploy_Config" > ./src/config/Config.ini
+    - export PYTHONPATH=$CI_PROJECT_DIR/src
+    - export CONFIG_PATH=./config/Config.ini
+    - cd ./src
+    - pip install -r requirement.txt
+    - pytest ../UnitTest/Test_Main.py --junitxml=ConfigReport.xml
+    - echo "Unit test done!"
+
+deploy-Dev-job:
+  environment:
+    name: Dev
+    url: $ViewDeploymentURL
+  variables:
+    EnvName: Dev
+    Now_IP: $Deploy_IP
+    Now_SSH: $Deploy_SSH
+    Now_User: 'ubuntu'
+    Now_Config: $Deploy_Config
+  extends:
+    - .deploy
+  only:
+    - main
+
+deploy-PreDeploy-job:
+  environment:
+    name: PreDeploy
+    url: $ViewDeploymentURL
+  variables:
+    EnvName: PreDeploy
+    Now_IP: $Deploy_IP
+    Now_SSH: $Deploy_SSH
+    Now_User: 'ubuntu'
+    Now_Config: $Deploy_Config
+  extends:
+    - .deploy
+
+  rules:
+    - if: $CI_COMMIT_TAG && $New_ENVName == null
+
+deploy-Other-job:
+  environment:
+    name: $New_ENVName
+    url: $New_ViewDeploymentURL
+  extends:
+    - .deploy
+  variables:
+    EnvName: $New_ENVName
+    Now_IP: $New_Deploy_IP
+    Now_SSH: $New_Deploy_SSH
+    Now_Config: $New_Deploy_Config
+    Now_ViewDeploymentURL: $New_ViewDeploymentURL
+    Now_User: $New_Deploy_User
+    SSHHub: $New_SSHHub
+  tags:
+    - $New_ENVName
+  rules:
+    - if: $CI_COMMIT_TAG && $New_ENVName != null
