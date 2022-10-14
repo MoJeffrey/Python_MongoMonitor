@@ -1,12 +1,3 @@
-源数数据查看 Web
-
-用于连接MongoDB 查看收到的原始数据
-
-追查数据走向和解析结果
-
-http://54.151.135.80:8000/
-
-
 # BGX-Python-Lambda-TheSports-Parse
 
 ![AppVeyor](https://img.shields.io/static/v1?label=MoJeffrey&message=BGX-Python-EC2-Mongo-Monitor&color=blue)
