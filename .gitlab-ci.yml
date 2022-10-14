@@ -28,7 +28,7 @@ unit-test-job:
         - src/Report.xml
 #        - src/UnitTest.log
   script:
-    - sh unitTest.sh
+    - sh ./Script/unitTest.sh
 
 deploy-Dev-job:
   environment:
