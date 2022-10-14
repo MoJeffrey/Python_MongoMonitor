@@ -21,9 +21,8 @@ service docker start
 #
 sudo su
 # 創建文件夾
-cd /home
-mkdir -p BGX/RawDataView
-cd ./BGX/RawDataView
+mkdir -p /home/BGX/RawDataView
+cd /home/BGX/RawDataView
 
 # 拉取最新代碼
 git init
