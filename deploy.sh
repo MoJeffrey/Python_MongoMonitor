@@ -31,9 +31,9 @@ git pull origin main
 # 設置 Config File
 echo "$Now_Config" > ./src/config/Config.ini
 
-docker build -t thesports_websocket .
-docker stop TheSportsWebSocket$EnvName
-docker container rm TheSportsWebSocket$EnvName
+docker build -t $CI_PROJECT_PATH .
+docker stop $CI_PROJECT_PATH$EnvName
+docker container rm $CI_PROJECT_PATH$EnvName
 
 # 需要选择采用那个Confi File
 docker run --restart=always -e CONFIG_PATH="config/Config.ini" -it -d --name=TheSportsWebSocket$EnvName thesports_websocket
