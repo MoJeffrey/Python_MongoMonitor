@@ -25,10 +25,6 @@ unit-test-job:
       junit:
         - src/Report.xml
   variables:
-    EnvName: Dev
-    Now_IP: $Deploy_IP
-    Now_SSH: $Deploy_SSH
-    Now_User: $Deploy_User
     Now_Config_Path: './src/config/Dev.ini'
   script:
     - echo "Unit test start!"
