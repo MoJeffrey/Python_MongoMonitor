@@ -49,7 +49,7 @@ workflow:
     - docker container rm $CI_PROJECT_NAME$EnvName
     
       # 需要选择采用那个Confi File
-    - docker run --restart=always -e CONFIG_PATH="config/Config.ini" -it -d --name=$CI_PROJECT_NAME$EnvName $CI_PROJECT_NAME
+    - docker run --restart=always -e CONFIG_PATH="config/Config.ini" -it -d -p 8000:$Deploy_Port --name=$CI_PROJECT_NAME$EnvName $CI_PROJECT_NAME
     - docker ps
     
       # 退出中轉
