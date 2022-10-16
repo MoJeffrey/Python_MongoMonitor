@@ -31,7 +31,16 @@ unit-test-job:
     Now_User: $Deploy_User
     Now_Config_Path: './src/config/Dev.ini'
   script:
-    - sh ./Script/unitTest.sh
+    - echo "Unit test start!"
+    - echo "$Now_Config_Path"
+    - cp $Now_Config_Path ./src/config/Config.ini
+    - export PYTHONPATH=$CI_PROJECT_DIR/src
+    - export CONFIG_PATH=./config/Config.ini
+    - cd ./src
+    - pip install -r requirement.txt
+    - pytest ../UnitTest/Test_Main.py --junitxml=Report.xml
+    #python ../UnitTest/Test_Main.py
+    - echo "Unit test done!"
 
 deploy-Dev-job:
   tags:
