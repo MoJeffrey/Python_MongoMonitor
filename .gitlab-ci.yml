@@ -44,9 +44,9 @@ workflow:
       # 設置 Config File
     - cp /home/config/MatchServer_MongoMonitor/Config.ini ./src/config/Config.ini
     
-    - docker build -t $CI_PROJECT_PATH .
-    - docker stop $CI_PROJECT_PATH$EnvName
-    - docker container rm $CI_PROJECT_PATH$EnvName
+    - docker build -t $CI_PROJECT_NAME .
+    - docker stop $CI_PROJECT_NAME$EnvName
+    - docker container rm $CI_PROJECT_NAME$EnvName
     
       # 需要选择采用那个Confi File
     - docker run --restart=always -e CONFIG_PATH="config/Config.ini" -it -d --name=$CI_PROJECT_NAME$EnvName $CI_PROJECT_NAME
