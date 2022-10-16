@@ -14,14 +14,17 @@ workflow:
   allow_failure: false
   when: manual
   script:
+    - echo "$Deploy_IP"
+    - echo "$Deploy_SSH"
+    - echo "$Deploy_User"
     - echo "deploy $EnvName start!"
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    - ssh-keyscan $Now_IP > ~/.ssh/known_hosts
+    - ssh-keyscan $Deploy_IP > ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    - echo "$Now_SSH" > /home/Dev_SSH.cer
+    - echo "$Deploy_SSH" > /home/Dev_SSH.cer
     - chmod 400 /home/Dev_SSH.cer
-    - ssh -i /home/Dev_SSH.cer $Now_User@$Now_IP > /home/Deploy.log 2>&1 << exitDeploy
+    - ssh -i /home/Dev_SSH.cer $Now_User@$Deploy_IP > /home/Deploy.log 2>&1 << exitDeploy
     - sudo su
     
       # 中轉
@@ -32,8 +35,8 @@ workflow:
       fi
     
       # 創建工作目錄
-    - mkdir -p /home/BGX/CI_PROJECT_NAME$EnvName
-    - cd /home/BGX/CI_PROJECT_NAME$EnvName
+    - mkdir -p /home/BGX/$CI_PROJECT_NAME$EnvName
+    - cd /home/BGX/$CI_PROJECT_NAME$EnvName
     
       # 拉取最新代碼
     - git init
@@ -75,13 +78,13 @@ unit-test-job:
       junit:
         - src/Report.xml
   variables:
-    Now_Config_Path: './src/config/Dev.ini'
+    Config_Path: './src/config/Dev.ini'
   script:
     - echo "Unit test start!"
     - echo "$Deploy_IP"
     - echo "$Deploy_SSH"
     - echo "$Deploy_User"
-    - cp $Now_Config_Path ./src/config/Config.ini
+    - cp $Config_Path ./src/config/Config.ini
     - export PYTHONPATH=$CI_PROJECT_DIR/src
     - export CONFIG_PATH=./config/Config.ini
     - cd ./src
