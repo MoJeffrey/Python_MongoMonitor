@@ -1,16 +1,16 @@
 import os
 import unittest
-import time
 
 from loguru import logger
-import pymongo
 
 from Tools.config import config
+from Tools.MongoDB import MongoDB
 
 if 'CI_PROJECT_NAME' not in os.environ:
     os.environ['CI_PROJECT_NAME'] = 'MatchServerMongoMonitor'
 
 logger.add("./UnitTest.log")
+config().Init()
 
 
 class ConfigTestCase(unittest.TestCase):
@@ -20,14 +20,16 @@ class ConfigTestCase(unittest.TestCase):
     1. 關鍵字是否齊全
     """
     ConfigFilePath = ''
-    def setUp(self) -> None:
-        logger.info("啟動")
-        config().Init()
 
     @staticmethod
     def test_MongoDB():
-        client = pymongo.MongoClient()
-        client.list_database_names()
+        logger.info("測試 MongoDB 連接")
+        MongoDB(host=config.MongoDB_IP, port=config.MongoDB_Port,
+                username=config.MongoDB_Name, tlsCAFile=config.MongoDB_tlsCAFile,
+                password=config.MongoDB_Password)
+        client = MongoDB.GetMongoDB()
+        NameList = client.list_database_names()
+        logger.info(NameList)
 
 
 if __name__ == '__main__':

@@ -1,19 +1,16 @@
-import json
 from http import HTTPStatus
 from bson.objectid import ObjectId, InvalidId
 from flask import Flask, jsonify, render_template, request
-import pymongo
 from Tools.config import config
+from Tools.MongoDB import MongoDB
 
 config().Init()
 
-client = pymongo.MongoClient(host=config.MongoDB_IP,
-                             port=config.MongoDB_Port,
-                             username=config.MongoDB_Name,
-                             ssl=True,
-                             tlsCAFile=config.MongoDB_tlsCAFile,
-                             password=config.MongoDB_Password)
-client.list_database_names()
+MongoDB(host=config.MongoDB_IP, port=config.MongoDB_Port,
+        username=config.MongoDB_Name, tlsCAFile=config.MongoDB_tlsCAFile,
+        password=config.MongoDB_Password)
+client = MongoDB.GetMongoDB()
+
 app = Flask(__name__)
 app.DEBUG = True
 app.jinja_env.auto_reload = True
