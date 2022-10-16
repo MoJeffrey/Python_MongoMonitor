@@ -75,8 +75,6 @@ unit-test-job:
         - src/Report.xml
   script:
     - echo "Unit test start!"
-    - cd /home/config
-    - ls
     - cp /home/config/MatchServer_MongoMonitor/Config.ini ./src/config/Config.ini
     - export PYTHONPATH=$CI_PROJECT_DIR/src
     - export CONFIG_PATH=./config/Config.ini
