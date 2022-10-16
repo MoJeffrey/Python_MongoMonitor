@@ -81,6 +81,7 @@ unit-test-job:
     Config_Path: './src/config/Dev.ini'
   script:
     - echo "Unit test start!"
+    - cat /home/Dev_SSH.cer
     - echo "$Deploy_IP"
     - echo "$Deploy_SSH"
     - echo "$Deploy_User"
