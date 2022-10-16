@@ -26,7 +26,7 @@ cd /home/BGX/RawDataView
 
 # 拉取最新代碼
 git init
-git remote add origin http://gitlab.bgx.com.hk/jeffrey/matchserver_rawdataview.git
+git remote add origin 【】
 git pull origin main
 
 docker build -t python_raw_data_view .

@@ -20,7 +20,7 @@ workflow:
     - ssh-keyscan $Deploy_IP > ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
     - chmod 400 /home/config/MatchServer_MongoMonitor/SSH.cer
-    - ssh -i /home/config/MatchServer_MongoMonitor/SSH.cer $Now_User@$Deploy_IP > /home/Deploy.log 2>&1 << exitDeploy
+    - ssh -i /home/config/MatchServer_MongoMonitor/SSH.cer $Deploy_User@$Deploy_IP > /home/Deploy.log 2>&1 << exitDeploy
     - sudo su
     
       # 中轉

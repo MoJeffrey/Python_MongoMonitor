@@ -15,13 +15,13 @@ cd ./BGX/RawDataView
 # 拉取最新代碼
 git init
 git config --global credential.helper store
-git remote add origin http://gitlab.bgx.com.hk/jeffrey/matchserver_rawdataview.git
+git remote add origin []
 git pull origin main
 jeffrey
 Wo1025792161
 
 # 創建home/BGX目錄/ 運行python
-docker run -it -d --name=RawDataView -p 8000:8000 -v /home/BGX/RawDataView:/root/BGX python:3.6.5 bash
+docker run -it -d --name=RawDataView -p 8000:8000 -v /home/RawDataView:/root/RawDataView python:3.6.5 bash
 
 # 進入容器
 docker exec -it RawDataView bash
