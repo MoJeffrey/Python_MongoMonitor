@@ -1,6 +1,6 @@
-# BGX-Python-EC2-Mongo-Monitor
+# Python-EC2-Mongo-Monitor
 
-![AppVeyor](https://img.shields.io/static/v1?label=MoJeffrey&message=BGX-Python-EC2-Mongo-Monitor&color=blue)
+![AppVeyor](https://img.shields.io/static/v1?label=MoJeffrey&message=Python-EC2-Mongo-Monitor&color=blue)
 
 
 ## 前言
