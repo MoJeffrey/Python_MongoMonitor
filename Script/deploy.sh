@@ -18,8 +18,8 @@ if ["$SSHHub" != ""];
   fi
 
 # 創建工作目錄
-mkdir -p /home/BGX/TheSportsWebSocket$EnvName
-cd /home/BGX/TheSportsWebSocket$EnvName
+mkdir -p /home/BGX/CI_PROJECT_NAME$EnvName
+cd /home/BGX/CI_PROJECT_NAME$EnvName
 
 # 拉取最新代碼
 git init
@@ -29,14 +29,14 @@ git reset --hard origin/main
 git pull origin main
 
 # 設置 Config File
-echo "$Now_Config" > ./src/config/Config.ini
+cp $Now_Config_Path ./src/config/Config.ini
 
 docker build -t $CI_PROJECT_PATH .
 docker stop $CI_PROJECT_PATH$EnvName
 docker container rm $CI_PROJECT_PATH$EnvName
 
 # 需要选择采用那个Confi File
-docker run --restart=always -e CONFIG_PATH="config/Config.ini" -it -d --name=TheSportsWebSocket$EnvName thesports_websocket
+docker run --restart=always -e CONFIG_PATH="config/Config.ini" -it -d --name=$CI_PROJECT_NAME$EnvName $CI_PROJECT_NAME
 docker ps
 
 # 退出中轉

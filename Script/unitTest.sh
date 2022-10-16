@@ -1,6 +1,6 @@
 echo "Unit test start!"
 echo "$CI_PROJECT_NAME!"
-cp $CONFIG_PATH ./src/config/Config.ini
+cp $Now_Config_Path ./src/config/Config.ini
 export PYTHONPATH=$CI_PROJECT_DIR/src
 export CONFIG_PATH=./config/Config.ini
 cd ./src

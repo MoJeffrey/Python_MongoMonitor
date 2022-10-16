@@ -13,8 +13,6 @@ workflow:
   stage: deploy
   allow_failure: false
   when: manual
-  tags:
-    - Dev
   script:
     - sh deploy.sh
 
@@ -26,11 +24,12 @@ unit-test-job:
     reports:
       junit:
         - src/Report.xml
-#        - src/UnitTest.log
   script:
     - sh ./Script/unitTest.sh
 
 deploy-Dev-job:
+  tags:
+    - Dev
   environment:
     name: Dev
     url: $ViewDeploymentURL
@@ -38,8 +37,8 @@ deploy-Dev-job:
     EnvName: Dev
     Now_IP: $Deploy_IP
     Now_SSH: $Deploy_SSH
-    Now_User: 'ubuntu'
-    Now_Config: $Deploy_Config
+    Now_User: $Deploy_User
+    Now_Config_Path: './src/config/Dev.ini'
   extends:
     - .deploy
   only:

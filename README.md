@@ -1,4 +1,4 @@
-# BGX-Python-Lambda-TheSports-Parse
+# BGX-Python-EC2-Mongo-Monitor
 
 ![AppVeyor](https://img.shields.io/static/v1?label=MoJeffrey&message=BGX-Python-EC2-Mongo-Monitor&color=blue)
 
