@@ -78,7 +78,6 @@ unit-test-job:
     Now_Config_Path: './src/config/Dev.ini'
   script:
     - echo "Unit test start!"
-    - echo "$Now_Config_Path"
     - cp $Now_Config_Path ./src/config/Config.ini
     - export PYTHONPATH=$CI_PROJECT_DIR/src
     - export CONFIG_PATH=./config/Config.ini
