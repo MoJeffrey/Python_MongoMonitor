@@ -30,8 +30,8 @@ git remote add origin http://gitlab.bgx.com.hk/jeffrey/matchserver_rawdataview.g
 git pull origin main
 
 docker build -t python_raw_data_view .
-docker stop PythonRawDataView
-docker container rm PythonRawDataView
+docker stop TheSportsWebSocket_Test
+docker container rm TheSportsWebSocket_Test
 
 # 需要选择采用那个Confi File
 docker run --restart=always -e CONFIG_PATH="config/Develop.ini" -t -p 8000:8000 --name=PythonRawDataView python_raw_data_view

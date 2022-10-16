@@ -91,10 +91,6 @@ deploy-Dev-job:
     url: $ViewDeploymentURL
   variables:
     EnvName: Dev
-    Now_IP: $Deploy_IP
-    Now_SSH: $Deploy_SSH
-    Now_User: $Deploy_User
-    Now_Config_Path: './src/config/Dev.ini'
   extends:
     - .deploy
   only:
@@ -106,10 +102,6 @@ deploy-PreDeploy-job:
     url: $ViewDeploymentURL
   variables:
     EnvName: PreDeploy
-    Now_IP: $Deploy_IP
-    Now_SSH: $Deploy_SSH
-    Now_User: 'ubuntu'
-    Now_Config: $Deploy_Config
   extends:
     - .deploy
   tags:
@@ -120,17 +112,11 @@ deploy-PreDeploy-job:
 deploy-Other-job:
   environment:
     name: $New_ENVName
-    url: $New_ViewDeploymentURL
+    url: $ViewDeploymentURL
   extends:
     - .deploy
   variables:
     EnvName: $New_ENVName
-    Now_IP: $New_Deploy_IP
-    Now_SSH: $New_Deploy_SSH
-    Now_Config: $New_Deploy_Config
-    Now_ViewDeploymentURL: $New_ViewDeploymentURL
-    Now_User: $New_Deploy_User
-    SSHHub: $New_SSHHub
   tags:
     - $New_ENVName
   rules:
